@@ -44,23 +44,24 @@ public class Combinations{
         Arrays.sort(suit);
 
 
-        //is it a flush?
+        //Is it a flush?
         if(suit[0].equals(suit[4])){
             strength = 6;
-            System.out.println(strength);
-            //is it a straight flush?
+            //System.out.println(strength);
+            //Is it a straight flush?
             if(numericValues[0] == numericValues[4] && numericValues[1] != numericValues[3]){
                 strength = 9;
-                System.out.println(strength);
-                //is it a royal flush?
-                if(numericValues[0] == 10){
+                //System.out.println(strength);
+                //Is it a royal flush?
+                if(numericValues[0] == 10){//doesn't recognise royal flush
                     strength = 10;
-                    System.out.println(strength);
+                    //System.out.println(strength);
                     return strength;
                 }
 
             }
         }
+
 
         
         return strength;
