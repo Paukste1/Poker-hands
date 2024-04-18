@@ -1,5 +1,5 @@
 # Poker-hands
-______________
+
 ## The process
 First step was to figure our a way to approach the task. There were a few factors I had to take into account:
 - To store all the hand combinations to memory, or taking them line by line in order to compare them;

@@ -21,24 +21,27 @@ public class PokerReader {
                     if(i < 5){
                         player1Value[i] = hand[i].substring(0, hand[i].length() - 1);
                         player1Suit[i] = hand[i].substring(hand[i].length() - 1);
-                        System.out.println("p1" + player1Value[i]);
-                        System.out.println("p1" + player1Suit[i]);
+                        //System.out.println("p1" + player1Value[i]);
+                        //System.out.println("p1" + player1Suit[i]);
                     }
                     else{
                         player2Value[i - 5] = hand[i].substring(0, hand[i].length() - 1);
                         player2Suit[i - 5] = hand[i].substring(hand[i].length() - 1);
-                        System.out.println("p2" + player2Value[i - 5]);
-                        System.out.println("p2" + player2Suit[i - 5]);
+                        //System.out.println("p2" + player2Value[i - 5]);
+                        //System.out.println("p2" + player2Suit[i - 5]);
                     }
                 }
                 if((Combinations.evaluate(player1Value, player1Suit, player2Value, player2Suit)) == 1)
                     winCount++;
+                //System.out.println(Combinations.evaluate(player1Value, player1Suit, player2Value, player2Suit));
+                
                 
             }
-             
+            System.out.println(winCount); 
             
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
 }
