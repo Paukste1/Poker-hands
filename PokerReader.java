@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class PokerReader {
-
+    public static int index = 0;
     public static void main(String[] args) {
         String filename = "hands.txt";
         String[] player1Value = new String[5];
@@ -35,9 +35,10 @@ public class PokerReader {
                     winCount++;
                 //System.out.println(Combinations.evaluate(player1Value, player1Suit, player2Value, player2Suit));
                 
-                
+             //System.out.println(index++);   
             }
-            System.out.println(winCount); 
+            
+            //System.out.println(winCount); 
             
         } catch (IOException e) {
             e.printStackTrace();

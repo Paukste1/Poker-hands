@@ -1,4 +1,7 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Combinations{
     
     public static int evaluate(String[] player1Value, String[] player1Suit, String[] player2Value, String[] player2Suit){
@@ -17,53 +20,120 @@ public class Combinations{
         int strength = 1;
         int[] numericValues = new int[value.length]; // Array to store numeric values
     
-    // Convert string values to integers
-    for (int i = 0; i < value.length; i++) {
-        switch (value[i]) {
-            case "T":
-                numericValues[i] = 10;
-                break;
-            case "J":
-                numericValues[i] = 11;
-                break;
-            case "Q":
-                numericValues[i] = 12;
-                break;
-            case "K":
-                numericValues[i] = 13;
-                break;
-            case "A":
-                numericValues[i] = 14;
-                break;
-            default:
-                numericValues[i] = Integer.parseInt(value[i]);
-                break;
+        // Convert string values to integers
+        for (int i = 0; i < value.length; i++) {
+            switch (value[i]) {
+                case "T":
+                    numericValues[i] = 10;
+                    break;
+                case "J":
+                    numericValues[i] = 11;
+                    break;
+                case "Q":
+                    numericValues[i] = 12;
+                    break;
+                case "K":
+                    numericValues[i] = 13;
+                    break;
+                case "A":
+                    numericValues[i] = 14;
+                    break;
+                default:
+                    numericValues[i] = Integer.parseInt(value[i]);
+                    break;
+            }
         }
-    }
         Arrays.sort(numericValues);
         Arrays.sort(suit);
+        /*for(int i = 0; i < 5; i++){
+            System.out.println(suit[i]);
+        }*/
+        System.out.println(suit[0]);
+        System.out.println(suit[3]);
 
+        boolean hasStraight = false;
+        boolean hasFlush = false;
+        boolean hasStraightFlush = false;
+        boolean hasRoyalFlush = false;
+        
+        boolean hasFourOfAKind = false;
+        boolean hasThreeOfAKind = false;
+        boolean hasPair = false;
+
+        //is it a three of a kind or full house, or Four of a kind
+        Map <Integer, Integer> freqMap = new HashMap<>();
+        for(int values:numericValues){
+            freqMap.put(values, freqMap.getOrDefault(values, 0) + 1);
+        }
+        
+
+        for(int count:freqMap.values()){
+            if (count == 4) {
+                hasFourOfAKind = true;
+            }   else if (count == 3) {
+                hasThreeOfAKind = true;
+                }   else if(count == 2){
+                    hasPair = true;
+                }
+        }
+        if (hasFourOfAKind) {
+            strength = 8;
+        }   else if(hasThreeOfAKind && hasPair){
+                strength = 7;
+            }   else if (hasThreeOfAKind){
+                strength = 4;
+                }
+
+        //Is it a straight or a flush, or a straight flush, or a royal flush?
+        //Is it a straight?
+        if (numericValues[0] == numericValues[4] - 4) {
+            if (freqMap.size() == 5) {
+                hasStraight = true;
+            }
+        }
 
         //Is it a flush?
         if(suit[0].equals(suit[4])){
-            strength = 6;
-            //System.out.println(strength);
-            //Is it a straight flush?
-            if(numericValues[0] == numericValues[4] && numericValues[1] != numericValues[3]){
-                strength = 9;
-                //System.out.println(strength);
-                //Is it a royal flush?
-                if(numericValues[0] == 10){//doesn't recognise royal flush
-                    strength = 10;
-                    //System.out.println(strength);
-                    return strength;
-                }
+            hasFlush = true;
+        }  
 
-            }
+        //Is it a straight flush?
+        if(hasStraight && hasFlush){
+            hasStraightFlush = true;
         }
+
+        //Is it a royal flush?
+        if(hasStraightFlush && numericValues[0] == 10){
+            hasRoyalFlush = true;
+        }
+
+
+        if (hasStraight) {
+            strength = 5;
+        }   
+        if (hasFlush) {
+            strength = 6;
+        }   
+        if(hasStraightFlush){
+            strength = 9;
+        }   
+        if(hasRoyalFlush){
+            strength = 10;
+            return strength;
+        }
+
+                
+        
+
+        
+
+
+        // part for two pairs, one pair and high card
+
 
 
         
         return strength;
+        
     }
 }
