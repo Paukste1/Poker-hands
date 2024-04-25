@@ -8,21 +8,20 @@ public class Combinations{
 
         int p1HandStrength = evaluateHand(player1Value, player1Suit);
         int p2HandStrength = evaluateHand(player2Value, player2Suit);
-        //System.out.println(p1HandStrength);
-        //System.out.println(p2HandStrength);
-        if (p1HandStrength > p2HandStrength)
-            return 1;
-        else
-            return 0;
+        if (p1HandStrength > p2HandStrength) {
+            return 1; // Player 1 wins
+        } else if (p1HandStrength < p2HandStrength) {
+            return 0; // Player 2 wins
+        } else {
+            // If hand strengths are equal, compare individual cards
+            return compareHands(player1Value, player2Value);
+        }
     }
 
-    private static int evaluateHand(String[] value, String[] suit){
-        int strength = 1;
-        int[] numericValues = new int[value.length]; // Array to store numeric values
-    
-        // Convert string values to integers
-        for (int i = 0; i < value.length; i++) {
-            switch (value[i]) {
+    private static int[] convertToNumericValues(String[] values) {
+        int[] numericValues = new int[values.length];
+        for (int i = 0; i < values.length; i++) {
+            switch (values[i]) {
                 case "T":
                     numericValues[i] = 10;
                     break;
@@ -39,10 +38,68 @@ public class Combinations{
                     numericValues[i] = 14;
                     break;
                 default:
-                    numericValues[i] = Integer.parseInt(value[i]);
+                    numericValues[i] = Integer.parseInt(values[i]);
                     break;
             }
         }
+        return numericValues;
+    }
+
+    private static int compareHands(String[] hand1, String[] hand2) {
+        int n = hand1.length;
+        
+        // Convert cards to numeric values for comparison
+        int[] numericValues1 = convertToNumericValues(hand1);
+        int[] numericValues2 = convertToNumericValues(hand2);
+    
+        // Sort the numeric values in descending order
+        Arrays.sort(numericValues1);
+        Arrays.sort(numericValues2);
+    
+        // Compare hand strengths
+        for (int i = n - 1; i >= 0; i--) {
+            if (numericValues1[i] > numericValues2[i]) {
+                return 1; // Player 1 wins
+            } else if (numericValues1[i] < numericValues2[i]) {
+                return -1; // Player 2 wins
+            }
+        }
+    
+        // If hand strengths are equal, compare the highest value of the hand
+        int maxCardValue1 = findMaxGroupValue(numericValues1);
+        int maxCardValue2 = findMaxGroupValue(numericValues2);
+    
+        if (maxCardValue1 > maxCardValue2) {
+            return 1; // Player 1 wins
+        } else  {
+            return -1; // Player 2 wins
+        } 
+    }
+    
+    private static int findMaxGroupValue(int[] numericValues) {
+        int maxCount = 0;
+        int maxValue = -1;
+        
+        // Count occurrences of each value
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        for (int value : numericValues) {
+            int count = frequencyMap.getOrDefault(value, 0) + 1;
+            frequencyMap.put(value, count);
+            
+            // Update maxCount and maxValue
+            if (count > maxCount || (count == maxCount && value > maxValue)) {
+                maxCount = count;
+                maxValue = value;
+            }
+        }
+        
+        return maxValue;
+    }
+
+    private static int evaluateHand(String[] value, String[] suit){
+        int strength = 1;
+        int[] numericValues = convertToNumericValues(value); // Array to store numeric values
+    
         Arrays.sort(numericValues);
         Arrays.sort(suit);
 
@@ -56,7 +113,7 @@ public class Combinations{
         boolean hasTwoPair = false;
         boolean hasPair = false;
 
-        //is it a three of a kind or full house, or Four of a kind
+        //Is it a three of a kind or full house, or Four of a kind
         Map <Integer, Integer> freqMap = new HashMap<>();
         for(int values:numericValues){
             freqMap.put(values, freqMap.getOrDefault(values, 0) + 1);
