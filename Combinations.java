@@ -45,11 +45,6 @@ public class Combinations{
         }
         Arrays.sort(numericValues);
         Arrays.sort(suit);
-        /*for(int i = 0; i < 5; i++){
-            System.out.println(suit[i]);
-        }*/
-        System.out.println(suit[0]);
-        System.out.println(suit[3]);
 
         boolean hasStraight = false;
         boolean hasFlush = false;
@@ -58,6 +53,7 @@ public class Combinations{
         
         boolean hasFourOfAKind = false;
         boolean hasThreeOfAKind = false;
+        boolean hasTwoPair = false;
         boolean hasPair = false;
 
         //is it a three of a kind or full house, or Four of a kind
@@ -72,9 +68,12 @@ public class Combinations{
                 hasFourOfAKind = true;
             }   else if (count == 3) {
                 hasThreeOfAKind = true;
-                }   else if(count == 2){
-                    hasPair = true;
-                }
+                }   else if(hasPair){
+                        hasTwoPair = true;
+                    }
+                        else if(count == 2){
+                            hasPair = true;
+                        }
         }
         if (hasFourOfAKind) {
             strength = 8;
@@ -122,15 +121,15 @@ public class Combinations{
             return strength;
         }
 
-                
-        
-
-        
-
-
         // part for two pairs, one pair and high card
-
-
+        if(hasTwoPair){
+            strength = 3;
+        }   else if(hasPair){
+            strength = 2;
+            }   else{
+                strength = 1;
+                }   
+        
 
         
         return strength;

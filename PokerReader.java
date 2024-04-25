@@ -32,13 +32,10 @@ public class PokerReader {
                     }
                 }
                 if((Combinations.evaluate(player1Value, player1Suit, player2Value, player2Suit)) == 1)
-                    winCount++;
-                //System.out.println(Combinations.evaluate(player1Value, player1Suit, player2Value, player2Suit));
-                
-             //System.out.println(index++);   
+                    winCount++; 
             }
             
-            //System.out.println(winCount); 
+            System.out.println(winCount); 
             
         } catch (IOException e) {
             e.printStackTrace();
